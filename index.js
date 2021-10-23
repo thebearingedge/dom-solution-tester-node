@@ -21,12 +21,16 @@ const dom = new JSDOM(document, {
 })
 
 const context = dom.getInternalVMContext()
+context.chai = chai
 context.expect = chai.expect
 
 const mocha = new Mocha()
 mocha.suite.emit('pre-require', context, 'solution', mocha)
 
-const script = new Script(tests)
-script.runInContext(context)
+const chaiQuery = fs.readFileSync(require.resolve('jquery')) +
+                  fs.readFileSync(require.resolve('chai-jquery'))
+
+new Script(chaiQuery).runInContext(context)
+new Script(tests).runInContext(context)
 
 mocha.run()

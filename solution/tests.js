@@ -1,12 +1,11 @@
 it('is unstyled before being clicked', () => {
-  const $ul = document.querySelector('ul')
-  expect($ul.style).not.to.have.keys(['color', 'backgroundColor'])
+  const $ul = $('ul')
+  expect($ul).not.to.have.attr('style')
 })
 
 it('is styled after being clicked', () => {
-  const $ul = document.querySelector('ul')
-  $ul.dispatchEvent(new Event('click'))
-  expect($ul.style).to.include({
+  const $ul = $('ul').trigger('click')
+  expect($ul).to.have.css({
     color: 'white',
     backgroundColor: 'green'
   })
